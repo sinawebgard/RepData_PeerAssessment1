@@ -1,9 +1,4 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 # Data
 
 The data consists of two months of data from an anonymous individual collected by a personal activity monitoring device during the months of October and November, 2012 and include the number of steps taken in 5 minute intervals each day.  
@@ -24,7 +19,8 @@ The dataset is stored in a comma-separated-value (CSV) file and there are a tota
 
 The GitHub repository for this assignment contains the dataset for this analysis. Hoewever to ensure reproducibility a code to download and expand the data is included in this document.
 
-```{r}
+
+```r
 if(!file.exists("activity.csv")){
         fileurl <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
         temp <- tempfile()
@@ -32,18 +28,19 @@ if(!file.exists("activity.csv")){
         unzip(temp)
         remove(temp)
 }
-
 ```
 
 Read the dataset:
 
-```{r}
+
+```r
 dat <- read.csv("activity.csv")
 ```
 
 Convert date variable to object with Date class:
 
-```{r}
+
+```r
 dat$date <- as.Date(dat$date)
 ```
 
@@ -51,63 +48,87 @@ dat$date <- as.Date(dat$date)
 
 Calculate the total number steps taken per day:
 
-```{r}
+
+```r
 dailysteps <- aggregate(steps ~ date, data = dat, sum)
 ```
 
 Make a historgram plot of total number of steps taken each day:
 
-```{r}
+
+```r
 hist(x= dailysteps$steps, xlab = "Steps per day",
         main = "Total Daily Steps", col = "red3")
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
+
 Calculate and report the mean of the total number of steps taken per day:  
 
-```{r}
+
+```r
 mean(dailysteps$steps, na.rm = TRUE)
 ```
 
+```
+## [1] 10766.19
+```
+
 Calculate and report the median of the total number of steps taken per day:  
-```{r}
+
+```r
 median(dailysteps$steps, na.rm = TRUE)
+```
+
+```
+## [1] 10765
 ```
 
 ## What is the average daily activity pattern?
 
 Make a time series plot of the 5-minute intervals and the average number of steps taken, averaged across all days:
 
-```{r}
+
+```r
 interval_steps <- aggregate(steps ~ interval, data = dat, mean)
 plot(interval_steps, type = "l", 
         xlab = "interval", main = "Average Daily Activity")
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-8-1.png) 
+
 *_Note:_ The interval identifier is an integer which corresponds with the hour and the minute when a particular interval begins (i.e in hh:mm format 5 identifies an interval beginning at 00:05 and 500 identifies an interval beginning at 05:00)*
 
 Identify the 5-minute interval which contains the maximum number of steps on average across all days:
 
-```{r}
+
+```r
 max_interval <- interval_steps[which.max(interval_steps$steps), 1 ]
 ```
 
 Convert the interval identifier to a human-readable timestap corresponding with the time of day when the active 5-minute period starts:
 
-```{r}
+
+```r
 max_hour <- sprintf("%02g", as.integer(max_interval/100))
 max_minutes <- sprintf("%02g", ((max_interval / 100 - as.integer(max_interval/100)) * 100))
 max_time <- paste(max_hour, max_minutes, sep=":")
 ```
 
-The interval identifer `r max_interval` corresponds to the 5-minute period which begins at `r max_time` and has the maximum number of steps by average across all days.
+The interval identifer 835 corresponds to the 5-minute period which begins at 08:35 and has the maximum number of steps by average across all days.
 
 
 ## Imputing missing values
 
 Calculate and report the total number of missing values in the dataset:
 
-```{r}
+
+```r
 sum(is.na(dat))
+```
+
+```
+## [1] 2304
 ```
 
 
@@ -116,7 +137,8 @@ sum(is.na(dat))
 
 Create a new dataset that is equal to the original dataset but with the missing data filled in:
 
-```{r}
+
+```r
 dat2 <- dat
 dat2$steps <- ifelse(is.na(dat2$steps), interval_steps
                     [interval_steps$interval == dat2$intervall, 1], dat2$steps)
@@ -126,22 +148,35 @@ dat2$steps <- ifelse(is.na(dat2$steps), interval_steps
 
 Make a histogram of the total number of steps taken each dayMake a histogram of the total number of steps taken each day
 
-```{r}
+
+```r
 dailysteps2 <- aggregate(steps ~ date, data = dat2, sum)
 hist(x= dailysteps2$steps, xlab = "Steps per day", 
      sub = "Missing values imputed", main = "Total Daily Steps", col = "blue3")
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-13-1.png) 
+
 Calculate and report the mean total number of steps taken per day:
 
-```{r}
+
+```r
 mean(dailysteps2$steps)
+```
+
+```
+## [1] 10766.19
 ```
 
  Calculate and report the median total number of steps taken per day:
  
-```{r}
+
+```r
 median(dailysteps2$steps)
+```
+
+```
+## [1] 10765
 ```
 
 THIS DOCUMENT IS BEING UPDATED
