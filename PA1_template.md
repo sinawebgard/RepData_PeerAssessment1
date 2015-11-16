@@ -117,6 +117,8 @@ max_time <- paste(max_hour, max_minutes, sep=":")
 
 The interval identifer 835 corresponds to the 5-minute period which begins at 08:35 and has the maximum number of steps by average across all days.
 
+*Note: the above information was last evaluated at 2015-11-16 00:56:03 while this document has been processed.*
+
 
 ## Imputing missing values
 
@@ -140,19 +142,21 @@ Create a new dataset that is equal to the original dataset but with the missing 
 
 ```r
 dat2 <- dat
-dat2$steps <- ifelse(is.na(dat2$steps), interval_steps
-                    [interval_steps$interval == dat2$intervall, 1], dat2$steps)
+dat2$steps <- ifelse(is.na(dat2$steps),
+                     interval_steps$steps
+                     [match(dat2$interval, interval_steps$interval)],
+                     dat2$steps)
 ```
 
-*Note: To fill the missing values where number of steps for a particular row is not available we need a representative number. Using the calculations in previous sections, we use the average (mean) of steps taken in each interval, averaged across all days.*
+*Note: To fill the missing values where number of steps for a particular row is not available we need a representative number. In this assignment we use the average of steps taken in each interval, averaged across all days. However we used both mean and median of each interval to calculate the average and replace the missing values to give us a reference point for comparing the effect of different strategies.*
 
-Make a histogram of the total number of steps taken each dayMake a histogram of the total number of steps taken each day
+Make a histogram of the total number of steps taken each day:
 
 
 ```r
 dailysteps2 <- aggregate(steps ~ date, data = dat2, sum)
 hist(x= dailysteps2$steps, xlab = "Steps per day", 
-     sub = "Missing values imputed", main = "Total Daily Steps", col = "blue3")
+     sub = "Missing values imputed (by mean of each interval)", main = "Total Daily Steps: 2nd Graph", col = "blue3")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-13-1.png) 
@@ -168,7 +172,7 @@ mean(dailysteps2$steps)
 ## [1] 10766.19
 ```
 
- Calculate and report the median total number of steps taken per day:
+Calculate and report the median total number of steps taken per day:
  
 
 ```r
@@ -176,10 +180,67 @@ median(dailysteps2$steps)
 ```
 
 ```
-## [1] 10765
+## [1] 10766.19
 ```
 
-The strategy to fill the missing values with the mean for each interval has kept the mean and median of the result same as the original dataset. Also as it's evident from the new histogram the distribution of the data remains the same. In comparison if the decision was made to fill the missing values by median it would significantly change the shape of the histogram and as a result the mean of values.
+The strategy to fill the missing values with the mean for each interval has kept the mean of the result exactly the same as the original dataset and the new median is only slightly higher. Also as it's evident from the new histogram the distribution of the data remains the same.  
+
+Alternatively if we decide to use the median of each interval to fill the missing values, it affects the shape of the histogram and as a result both mean and median of total daily steps will change.
+
+For comparison, we calculate the median of steps for each interval, across all days in the dataset:
+
+
+```r
+alt_value <- aggregate(steps ~ interval, data = dat, median)
+```
+
+Now we use this alternative value to fill the missing values:
+
+
+```r
+dat3 <- dat
+dat3$steps <- ifelse(is.na(dat3$steps), alt_value$steps
+                    [match(dat3$interval, alt_value$interval)], 
+                    dat3$steps)
+```
+
+
+Let's make a histogram of the total number of steps taken each day, but adjusted by median rather than mean:
+
+
+```r
+dailysteps3 <- aggregate(steps ~ date, data = dat3, sum)
+hist(x= dailysteps3$steps, xlab = "Steps per day: 3rd graph", 
+     sub = "Missing values imputed (by median of each interval)", main = "Total Daily Steps: 3rd Graph", col = "green3")
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-18-1.png) 
+
+Calculate and report the mean total number of steps taken per day:
+
+
+```r
+mean(dailysteps3$steps)
+```
+
+```
+## [1] 9503.869
+```
+
+Calculate and report the median total number of steps taken per day:
+ 
+
+```r
+median(dailysteps3$steps)
+```
+
+```
+## [1] 10395
+```
+
+New values for both mean and median of the total daily steps are significantly lower than the ones under previous strategy or from the original dataset. Also the frequency of the first bin in histogram has signficantly increased.
+
+As the change in the shape of the histogram and values of mean and median shows, the selected strategy for filling `NA`s has a noticable effect on the analysis.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
@@ -187,8 +248,8 @@ Create a new factor variable in the dataset with two levels - "weekday" and "wee
 
 
 ```r
-datwd <- ifelse(weekdays(dat2$date) %in% c("Saturday","Sunday"), "Weekend", "Weekday")
-dat2$wd <- as.factor(datwd)
+datwd <- ifelse(weekdays(dat3$date) %in% c("Saturday","Sunday"), "Weekend", "Weekday")
+dat3$wd <- as.factor(datwd)
 ```
 
 Make a panel plot containing a time series plot of the 5-minute interval and the average number of steps taken, averaged across all weekday days or weekend days:
@@ -197,14 +258,14 @@ Make a panel plot containing a time series plot of the 5-minute interval and the
 ```r
 library(lattice)
 
-interval_steps2 <- aggregate(steps ~ interval + wd, dat2, mean)
+interval_steps2 <- aggregate(steps ~ interval + wd, dat3, mean)
 
 xyplot(steps ~ interval | wd, data = interval_steps2, type = "l", 
        layout = c(1, 2), main = "Daily Activity: Weekday versus Weekend",
-       xlab = "interval", xlim = c(0:2400, by = 5))
+       xlab = "interval", xlim = c(0:2355, by = 5))
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-17-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-22-1.png) 
 
 As demonstrated in the above panel plot the pattern of activities during the weekends is significantly different to the pattern during the weekdays- in an average weekday the number of steps after reaching the peak in the morning drops sharply and remains low during the office hours until it rises slightly during the lunch time and again in late afternoon. But the peaks of activity during an average weekend are more distributed.  
   
