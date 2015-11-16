@@ -64,8 +64,8 @@ img {
 </div>
 
 
-<div id="data" class="section level1">
-<h1>Data</h1>
+<div id="data" class="section level2">
+<h2>Data</h2>
 <p>The data consists of two months of data from an anonymous individual collected by a personal activity monitoring device during the months of October and November, 2012 and include the number of steps taken in 5 minute intervals each day.</p>
 <p>The variables included in this dataset are:</p>
 <p><strong>steps:</strong> Number of steps taking in a 5-minute interval (missing values are coded as NA)</p>
@@ -73,6 +73,7 @@ img {
 <p><strong>interval:</strong> Identifier for the 5-minute interval in which measurement was taken.</p>
 <p><em><em>Note:</em> The interval identifier is an integer which corresponds with the hour and the minute when a particular interval begins (i.e in hh:mm format 5 identifies an interval beginning at 00:05 and 500 identifies an interval beginning at 05:00)</em></p>
 <p>The dataset is stored in a comma-separated-value (CSV) file and there are a total of 17,568 observations in this dataset.</p>
+</div>
 <div id="loading-and-preprocessing-the-data" class="section level2">
 <h2>Loading and preprocessing the data</h2>
 <p>The GitHub repository for this assignment contains the dataset for this analysis. Hoewever to ensure reproducibility a code to download and expand the data is included in this document.</p>
@@ -118,7 +119,7 @@ plot(interval_steps, type = &quot;l&quot;,
 max_minutes &lt;- sprintf(&quot;%02g&quot;, ((max_interval / 100 - as.integer(max_interval/100)) * 100))
 max_time &lt;- paste(max_hour, max_minutes, sep=&quot;:&quot;)</code></pre>
 <p>The interval identifer 835 corresponds to the 5-minute period which begins at 08:35 and has the maximum number of steps by average across all days.</p>
-<p><em>Note: the above information was last evaluated at 2015-11-16 00:56:03 while this document has been processed.</em></p>
+<p><em>Note: the above information was last evaluated at 2015-11-16 01:04:00 while this document has been processed.</em></p>
 </div>
 <div id="imputing-missing-values" class="section level2">
 <h2>Imputing missing values</h2>
@@ -185,7 +186,6 @@ xyplot(steps ~ interval | wd, data = interval_steps2, type = &quot;l&quot;,
 </div>
 <div id="section" class="section level2">
 <h2></h2>
-</div>
 </div>
 
 

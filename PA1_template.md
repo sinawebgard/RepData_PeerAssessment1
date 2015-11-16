@@ -1,5 +1,5 @@
 # Reproducible Research: Peer Assessment 1
-# Data
+## Data
 
 The data consists of two months of data from an anonymous individual collected by a personal activity monitoring device during the months of October and November, 2012 and include the number of steps taken in 5 minute intervals each day.  
 
@@ -117,7 +117,7 @@ max_time <- paste(max_hour, max_minutes, sep=":")
 
 The interval identifer 835 corresponds to the 5-minute period which begins at 08:35 and has the maximum number of steps by average across all days.
 
-*Note: the above information was last evaluated at 2015-11-16 00:56:03 while this document has been processed.*
+*Note: the above information was last evaluated at 2015-11-16 01:04:00 while this document has been processed.*
 
 
 ## Imputing missing values
