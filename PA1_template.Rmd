@@ -133,7 +133,8 @@ Make a histogram of the total number of steps taken each day:
 ```{r}
 dailysteps2 <- aggregate(steps ~ date, data = dat2, sum)
 hist(x= dailysteps2$steps, xlab = "Steps per day", 
-     sub = "Missing values imputed (by mean of each interval)", main = "Total Daily Steps: 2nd Graph", col = "blue3")
+     sub = "Missing values imputed (by mean of each interval)",
+     main = "Total Daily Steps: 2nd Graph", col = "blue3")
 ```
 
 Calculate and report the mean total number of steps taken per day:
@@ -173,7 +174,8 @@ Let's make a histogram of the total number of steps taken each day, but adjusted
 ```{r}
 dailysteps3 <- aggregate(steps ~ date, data = dat3, sum)
 hist(x= dailysteps3$steps, xlab = "Steps per day: 3rd graph", 
-     sub = "Missing values imputed (by median of each interval)", main = "Total Daily Steps: 3rd Graph", col = "green3")
+     sub = "Missing values imputed (by median of each interval)", 
+     main = "Total Daily Steps: 3rd Graph", col = "green3")
 ```
 
 Calculate and report the mean total number of steps taken per day:

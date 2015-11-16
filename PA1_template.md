@@ -117,7 +117,7 @@ max_time <- paste(max_hour, max_minutes, sep=":")
 
 The interval identifer 835 corresponds to the 5-minute period which begins at 08:35 and has the maximum number of steps by average across all days.
 
-*Note: the above information was last evaluated at 2015-11-16 01:04:00 while this document has been processed.*
+*Note: the above information was last evaluated at 2015-11-16 01:05:38 while this document has been processed.*
 
 
 ## Imputing missing values
@@ -156,7 +156,8 @@ Make a histogram of the total number of steps taken each day:
 ```r
 dailysteps2 <- aggregate(steps ~ date, data = dat2, sum)
 hist(x= dailysteps2$steps, xlab = "Steps per day", 
-     sub = "Missing values imputed (by mean of each interval)", main = "Total Daily Steps: 2nd Graph", col = "blue3")
+     sub = "Missing values imputed (by mean of each interval)",
+     main = "Total Daily Steps: 2nd Graph", col = "blue3")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-13-1.png) 
@@ -211,7 +212,8 @@ Let's make a histogram of the total number of steps taken each day, but adjusted
 ```r
 dailysteps3 <- aggregate(steps ~ date, data = dat3, sum)
 hist(x= dailysteps3$steps, xlab = "Steps per day: 3rd graph", 
-     sub = "Missing values imputed (by median of each interval)", main = "Total Daily Steps: 3rd Graph", col = "green3")
+     sub = "Missing values imputed (by median of each interval)", 
+     main = "Total Daily Steps: 3rd Graph", col = "green3")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-18-1.png) 
