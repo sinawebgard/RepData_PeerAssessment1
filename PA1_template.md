@@ -1,6 +1,8 @@
 # Reproducible Research: Peer Assessment 1
 ## Data
 
+**To graders:** *After I submitted the assignment, I added a further explanation about two strategies I employed for imputing missing data. You can find this extra part at the end of the relevant section. The extra explanation was not part of the required assignment so if you wish please ignore the latest version of files and look for the commit marked as "final edit"- the version corresponds with my submitted SHA-1 and although was pushed slightly after 11:30 deadline (I was working on the assignment until last minute) but was still accepted by the submission page so I hope you would find it acceptable to grade too.*
+
 The data consists of two months of data from an anonymous individual collected by a personal activity monitoring device during the months of October and November, 2012 and include the number of steps taken in 5 minute intervals each day.  
 
 The variables included in this dataset are:  
@@ -117,7 +119,7 @@ max_time <- paste(max_hour, max_minutes, sep=":")
 
 The interval identifer 835 corresponds to the 5-minute period which begins at 08:35 and has the maximum number of steps by average across all days.
 
-*Note: the above information was last evaluated at 2015-11-16 01:05:38 while this document has been processed.*
+*Note: the above information was last evaluated at 2015-11-16 02:29:11 while this document has been processed.*
 
 
 ## Imputing missing values
@@ -184,11 +186,11 @@ median(dailysteps2$steps)
 ## [1] 10766.19
 ```
 
-The strategy to fill the missing values with the mean for each interval has kept the mean of the result exactly the same as the original dataset and the new median is only slightly higher. Also as it's evident from the new histogram the distribution of the data remains the same.  
+The strategy to fill the missing values with the mean for each interval has kept the mean of the result exactly the same as the original dataset and the new median is only slightly higher (and equals the mean). Also as it's evident from the new histogram the distribution of the data remains the same.  
 
 Alternatively if we decide to use the median of each interval to fill the missing values, it affects the shape of the histogram and as a result both mean and median of total daily steps will change.
 
-For comparison, we calculate the median of steps for each interval, across all days in the dataset:
+For comparison, let's calculate the median of steps for each interval, across all days in the dataset:
 
 
 ```r
@@ -244,6 +246,42 @@ New values for both mean and median of the total daily steps are significantly l
 
 As the change in the shape of the histogram and values of mean and median shows, the selected strategy for filling `NA`s has a noticable effect on the analysis.
 
+In order to explain the difference in results of the two types of "average" values we used to replace `NA`s, we can take a look at their five point summaries.
+
+First let's take a look at the mean number of steps per intervals:
+
+
+```r
+summary(interval_steps$steps)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   2.486  34.110  37.380  52.830 206.200
+```
+
+Now let's compare it to the median number of steps per intervals:
+
+
+```r
+summary(alt_value$steps)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   0.000   0.000   3.962   0.000  60.000
+```
+
+As we can see the range of mean for steps per intervals is much wider than the median. Also it seems for most of intervals the median number of steps across all days is zero. In total the median number of steps for 235 intervals is zero.
+
+This is not surprising since the data is collected from the activities of one individual who most likely in majority of the 5-minute intervals may not have taken a single step. 
+
+In total the number of steps in 11014 intervals is equal to zero. That is 72.1567086% of observations excluding missing data.
+
+The high frequency of 0's in the dataset makes the result of the imputing strategies very different depending on whether mean or median of steps per interval has been employed.
+
+For the rest of the assignment, we use the version of dataset where the missing data were replaced by median steps per each interval.
+
 ## Are there differences in activity patterns between weekdays and weekends?
 
 Create a new factor variable in the dataset with two levels - "weekday" and "weekend" indicating whether a given date is a weekday or weekend day:
@@ -267,7 +305,7 @@ xyplot(steps ~ interval | wd, data = interval_steps2, type = "l",
        xlab = "interval", xlim = c(0:2355, by = 5))
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-22-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-24-1.png) 
 
 As demonstrated in the above panel plot the pattern of activities during the weekends is significantly different to the pattern during the weekdays- in an average weekday the number of steps after reaching the peak in the morning drops sharply and remains low during the office hours until it rises slightly during the lunch time and again in late afternoon. But the peaks of activity during an average weekend are more distributed.  
   

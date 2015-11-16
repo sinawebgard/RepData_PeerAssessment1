@@ -66,6 +66,7 @@ img {
 
 <div id="data" class="section level2">
 <h2>Data</h2>
+<p><strong>To graders:</strong> <em>After I submitted the assignment, I added a further explanation about two strategies I employed for imputing missing data. You can find this extra part at the end of the relevant section. The extra explanation was not part of the required assignment so if you wish please ignore the latest version of files and look for the commit marked as “final edit”- the version corresponds with my submitted SHA-1 and although was pushed slightly after 11:30 deadline (I was working on the assignment until last minute) but was still accepted by the submission page so I hope you would find it acceptable to grade too.</em></p>
 <p>The data consists of two months of data from an anonymous individual collected by a personal activity monitoring device during the months of October and November, 2012 and include the number of steps taken in 5 minute intervals each day.</p>
 <p>The variables included in this dataset are:</p>
 <p><strong>steps:</strong> Number of steps taking in a 5-minute interval (missing values are coded as NA)</p>
@@ -119,7 +120,7 @@ plot(interval_steps, type = &quot;l&quot;,
 max_minutes &lt;- sprintf(&quot;%02g&quot;, ((max_interval / 100 - as.integer(max_interval/100)) * 100))
 max_time &lt;- paste(max_hour, max_minutes, sep=&quot;:&quot;)</code></pre>
 <p>The interval identifer 835 corresponds to the 5-minute period which begins at 08:35 and has the maximum number of steps by average across all days.</p>
-<p><em>Note: the above information was last evaluated at 2015-11-16 01:05:38 while this document has been processed.</em></p>
+<p><em>Note: the above information was last evaluated at 2015-11-16 02:29:11 while this document has been processed.</em></p>
 </div>
 <div id="imputing-missing-values" class="section level2">
 <h2>Imputing missing values</h2>
@@ -146,9 +147,9 @@ hist(x= dailysteps2$steps, xlab = &quot;Steps per day&quot;,
 <p>Calculate and report the median total number of steps taken per day:</p>
 <pre class="r"><code>median(dailysteps2$steps)</code></pre>
 <pre><code>## [1] 10766.19</code></pre>
-<p>The strategy to fill the missing values with the mean for each interval has kept the mean of the result exactly the same as the original dataset and the new median is only slightly higher. Also as it’s evident from the new histogram the distribution of the data remains the same.</p>
+<p>The strategy to fill the missing values with the mean for each interval has kept the mean of the result exactly the same as the original dataset and the new median is only slightly higher (and equals the mean). Also as it’s evident from the new histogram the distribution of the data remains the same.</p>
 <p>Alternatively if we decide to use the median of each interval to fill the missing values, it affects the shape of the histogram and as a result both mean and median of total daily steps will change.</p>
-<p>For comparison, we calculate the median of steps for each interval, across all days in the dataset:</p>
+<p>For comparison, let’s calculate the median of steps for each interval, across all days in the dataset:</p>
 <pre class="r"><code>alt_value &lt;- aggregate(steps ~ interval, data = dat, median)</code></pre>
 <p>Now we use this alternative value to fill the missing values:</p>
 <pre class="r"><code>dat3 &lt;- dat
@@ -169,6 +170,20 @@ hist(x= dailysteps3$steps, xlab = &quot;Steps per day: 3rd graph&quot;,
 <pre><code>## [1] 10395</code></pre>
 <p>New values for both mean and median of the total daily steps are significantly lower than the ones under previous strategy or from the original dataset. Also the frequency of the first bin in histogram has signficantly increased.</p>
 <p>As the change in the shape of the histogram and values of mean and median shows, the selected strategy for filling <code>NA</code>s has a noticable effect on the analysis.</p>
+<p>In order to explain the difference in results of the two types of “average” values we used to replace <code>NA</code>s, we can take a look at their five point summaries.</p>
+<p>First let’s take a look at the mean number of steps per intervals:</p>
+<pre class="r"><code>summary(interval_steps$steps)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   2.486  34.110  37.380  52.830 206.200</code></pre>
+<p>Now let’s compare it to the median number of steps per intervals:</p>
+<pre class="r"><code>summary(alt_value$steps)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   0.000   0.000   3.962   0.000  60.000</code></pre>
+<p>As we can see the range of mean for steps per intervals is much wider than the median. Also it seems for most of intervals the median number of steps across all days is zero. In total the median number of steps for 235 intervals is zero.</p>
+<p>This is not surprising since the data is collected from the activities of one individual who most likely in majority of the 5-minute intervals may not have taken a single step.</p>
+<p>In total the number of steps in 11014 intervals is equal to zero. That is 72.1567086% of observations excluding missing data.</p>
+<p>The high frequency of 0’s in the dataset makes the result of the imputing strategies very different depending on whether mean or median of steps per interval has been employed.</p>
+<p>For the rest of the assignment, we use the version of dataset where the missing data were replaced by median steps per each interval.</p>
 </div>
 <div id="are-there-differences-in-activity-patterns-between-weekdays-and-weekends" class="section level2">
 <h2>Are there differences in activity patterns between weekdays and weekends?</h2>
