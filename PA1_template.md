@@ -179,6 +179,39 @@ median(dailysteps2$steps)
 ## [1] 10765
 ```
 
-THIS DOCUMENT IS BEING UPDATED
+The strategy to fill the missing values with the mean for each interval has kept the mean and median of the result same as the original dataset. Also as it's evident from the new histogram the distribution of the data remains the same. In comparison if the decision was made to fill the missing values by median it would significantly change the shape of the histogram and as a result the mean of values.
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
+Create a new factor variable in the dataset with two levels - "weekday" and "weekend" indicating whether a given date is a weekday or weekend day:
+
+
+```r
+datwd <- ifelse(weekdays(dat2$date) %in% c("Saturday","Sunday"), "Weekend", "Weekday")
+dat2$wd <- as.factor(datwd)
+```
+
+Make a panel plot containing a time series plot of the 5-minute interval and the average number of steps taken, averaged across all weekday days or weekend days:
+
+
+```r
+library(lattice)
+
+interval_steps2 <- aggregate(steps ~ interval + wd, dat2, mean)
+
+xyplot(steps ~ interval | wd, data = interval_steps2, type = "l", 
+       layout = c(1, 2), main = "Daily Activity: Weekday versus Weekend",
+       xlab = "interval", xlim = c(0:2400, by = 5))
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-17-1.png) 
+
+As demonstrated in the above panel plot the pattern of activities during the weekends is significantly different to the pattern during the weekdays- in an average weekday the number of steps after reaching the peak in the morning drops sharply and remains low during the office hours until it rises slightly during the lunch time and again in late afternoon. But the peaks of activity during an average weekend are more distributed.  
+  
+    
+      
+      
+      
+      
+      
+##
