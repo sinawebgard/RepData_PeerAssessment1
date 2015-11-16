@@ -119,7 +119,7 @@ max_time <- paste(max_hour, max_minutes, sep=":")
 
 The interval identifer 835 corresponds to the 5-minute period which begins at 08:35 and has the maximum number of steps by average across all days.
 
-*Note: the above information was last evaluated at 2015-11-16 02:29:11 while this document has been processed.*
+*Note: the above information was last evaluated at 2015-11-16 02:35:58 while this document has been processed.*
 
 
 ## Imputing missing values
@@ -281,6 +281,8 @@ In total the number of steps in 11014 intervals is equal to zero. That is 72.156
 The high frequency of 0's in the dataset makes the result of the imputing strategies very different depending on whether mean or median of steps per interval has been employed.
 
 For the rest of the assignment, we use the version of dataset where the missing data were replaced by median steps per each interval.
+
+*Note: the above information was last evaluated at 2015-11-16 02:36:00 while this document has been processed.*
 
 ## Are there differences in activity patterns between weekdays and weekends?
 

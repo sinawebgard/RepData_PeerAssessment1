@@ -220,6 +220,8 @@ The high frequency of 0's in the dataset makes the result of the imputing strate
 
 For the rest of the assignment, we use the version of dataset where the missing data were replaced by median steps per each interval.
 
+*Note: the above information was last evaluated at `r Sys.time()` while this document has been processed.*
+
 ## Are there differences in activity patterns between weekdays and weekends?
 
 Create a new factor variable in the dataset with two levels - "weekday" and "weekend" indicating whether a given date is a weekday or weekend day:

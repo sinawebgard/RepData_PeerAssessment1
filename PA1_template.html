@@ -120,7 +120,7 @@ plot(interval_steps, type = &quot;l&quot;,
 max_minutes &lt;- sprintf(&quot;%02g&quot;, ((max_interval / 100 - as.integer(max_interval/100)) * 100))
 max_time &lt;- paste(max_hour, max_minutes, sep=&quot;:&quot;)</code></pre>
 <p>The interval identifer 835 corresponds to the 5-minute period which begins at 08:35 and has the maximum number of steps by average across all days.</p>
-<p><em>Note: the above information was last evaluated at 2015-11-16 02:29:11 while this document has been processed.</em></p>
+<p><em>Note: the above information was last evaluated at 2015-11-16 02:35:58 while this document has been processed.</em></p>
 </div>
 <div id="imputing-missing-values" class="section level2">
 <h2>Imputing missing values</h2>
@@ -184,6 +184,7 @@ hist(x= dailysteps3$steps, xlab = &quot;Steps per day: 3rd graph&quot;,
 <p>In total the number of steps in 11014 intervals is equal to zero. That is 72.1567086% of observations excluding missing data.</p>
 <p>The high frequency of 0’s in the dataset makes the result of the imputing strategies very different depending on whether mean or median of steps per interval has been employed.</p>
 <p>For the rest of the assignment, we use the version of dataset where the missing data were replaced by median steps per each interval.</p>
+<p><em>Note: the above information was last evaluated at 2015-11-16 02:36:00 while this document has been processed.</em></p>
 </div>
 <div id="are-there-differences-in-activity-patterns-between-weekdays-and-weekends" class="section level2">
 <h2>Are there differences in activity patterns between weekdays and weekends?</h2>
